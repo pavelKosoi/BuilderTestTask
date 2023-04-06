@@ -17,7 +17,7 @@ namespace BuilderGame.Gameplay.Unit.Rotation
         
         private void Update()
         {
-            if (unitMovement.TargetVelocity.sqrMagnitude > float.Epsilon)
+            if (unitMovement.TargetVelocity.sqrMagnitude > Constants.Epsilon)
             {
                 unitRotation.SetRotationDirection(unitMovement.Direction);
             }

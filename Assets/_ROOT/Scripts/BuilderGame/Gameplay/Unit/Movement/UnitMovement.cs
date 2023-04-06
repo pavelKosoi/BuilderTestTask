@@ -40,7 +40,7 @@ namespace BuilderGame.Gameplay.Unit
         {
             TargetVelocity = Vector3.zero;
 
-            if (Direction.sqrMagnitude > float.Epsilon)
+            if (Direction.sqrMagnitude > Constants.Epsilon)
             {
                 TargetVelocity = Direction * Speed;
             }

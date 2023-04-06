@@ -17,7 +17,7 @@ namespace BuilderGame.Gameplay.Unit.Rotation
 
         private void Rotate()
         {
-            if (direction.sqrMagnitude > float.Epsilon)
+            if (direction.sqrMagnitude > Constants.Epsilon)
             {
                 var targetRotation = Quaternion.LookRotation(direction);
 

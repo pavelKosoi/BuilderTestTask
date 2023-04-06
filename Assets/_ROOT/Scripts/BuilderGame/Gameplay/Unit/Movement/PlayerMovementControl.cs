@@ -31,7 +31,9 @@ namespace BuilderGame.Gameplay.Unit
 
         private void Update()
         {
-            var movementVector = mainCamera.transform.TransformDirection(inputProvider.Axis);
+            var input = inputProvider.Axis;
+
+            var movementVector = mainCamera.transform.TransformDirection(input);
             movementVector.y = 0f;
             movementVector.Normalize();
             
