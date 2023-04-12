@@ -1,4 +1,4 @@
-﻿using BuilderGame.Infrastructure.Input;
+﻿using BuilderGame.Infrastructure.Services.Input;
 using UnityEngine;
 using Zenject;
 

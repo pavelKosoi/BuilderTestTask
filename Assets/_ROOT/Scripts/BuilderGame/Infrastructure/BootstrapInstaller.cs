@@ -1,6 +1,6 @@
-using BuilderGame.Infrastructure.Ads;
-using BuilderGame.Infrastructure.Ads.Fake;
-using BuilderGame.Infrastructure.Input;
+using BuilderGame.Infrastructure.Services.Ads;
+using BuilderGame.Infrastructure.Services.Ads.Fake;
+using BuilderGame.Infrastructure.Services.Input;
 using UnityEngine;
 using Zenject;
 

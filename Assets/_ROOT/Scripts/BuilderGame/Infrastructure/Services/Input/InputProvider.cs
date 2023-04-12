@@ -1,4 +1,4 @@
-﻿namespace BuilderGame.Infrastructure.Input
+﻿namespace BuilderGame.Infrastructure.Services.Input
 {
     using UnityEngine;
 
