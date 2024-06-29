@@ -14,9 +14,10 @@ public class PlayerFarmingController : MonoBehaviour
     {
         public GardenBedBase.State doingType;
         public bool breakOnMove;
+        public GameObject instrument;
+        public ParticleEmiter doingFx;
     }
 
-    [SerializeField] Transform instruments;
     [SerializeField] Doing[] doings;
 
     UnitMovementAnimation movementAnimation;
@@ -36,10 +37,10 @@ public class PlayerFarmingController : MonoBehaviour
 
     public void StartDoingByState(GardenBedBase.State gardebBedState)
     {
-        CheckCellsRoutine = StartCoroutine(CheckGardenBedCells());
-        for (int i = 0; i < instruments.childCount; i++)
+        CheckCellsRoutine = StartCoroutine(CheckGardenBedCells());        
+        foreach (var item in doings)
         {
-            instruments.GetChild(i).gameObject.SetActive(i == (int)gardebBedState);
+            item.instrument.SetActive(item.doingType == gardebBedState);
         }
         currentState = gardebBedState;
         movementAnimation.Animator.SetTrigger(gardebBedState.ToString());
@@ -113,8 +114,21 @@ public class PlayerFarmingController : MonoBehaviour
         RemoveCollidersNotInAngle(colliders, angleAndRadiusHandler.Angle);
         return colliders;
     }
+
+    Doing GetDoingByState(GardenBedBase.State state)
+    {
+        foreach (var item in doings)
+        {
+            if (item.doingType == state) return item;
+        }
+        return new Doing();
+    }
+
     public void Work()
     {
+        Doing currentDoing = GetDoingByState(currentState);
+        if (currentDoing.doingFx) currentDoing.doingFx.Emit();
+
         List<Collider> colliders = GetCellsInAngle();
 
         foreach (var item in colliders)
@@ -142,10 +156,10 @@ public class PlayerFarmingController : MonoBehaviour
 
     public void BackToDefault()
     {
-        if (CheckCellsRoutine != null) StopCoroutine(CheckCellsRoutine); 
-        for (int i = 0; i < instruments.childCount; i++)
+        if (CheckCellsRoutine != null) StopCoroutine(CheckCellsRoutine);
+        foreach (var item in doings)
         {
-            instruments.GetChild(i).gameObject.SetActive(false);
+            item.instrument.SetActive(false);
         }
         movementAnimation.Animator.SetTrigger("BackToDefault");
     }

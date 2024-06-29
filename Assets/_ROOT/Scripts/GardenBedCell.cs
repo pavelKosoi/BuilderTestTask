@@ -34,6 +34,6 @@ public class GardenBedCell : MonoBehaviour
         dirtFx.Emit();
         groundMesh.material = groundMaterial;
         currentState = GardenBedBase.State.Seeding;
-        GardenBedBase.CheckAllCellsByState(currentState);
+        GardenBedBase.TryToNextState(currentState);
     }
 }
