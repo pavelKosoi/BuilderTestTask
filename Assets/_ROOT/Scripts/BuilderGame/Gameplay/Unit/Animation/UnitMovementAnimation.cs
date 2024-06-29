@@ -11,8 +11,8 @@ namespace BuilderGame.Gameplay.Unit.Animation
         [SerializeField]
         private UnitMovement unitMovement;
         [SerializeField]
-        private Animator animator;
-        int currentLayer;
+        private Animator animator;      
+        public Animator Animator { get { return animator; } }
 
 
         private readonly int movementParameter = Animator.StringToHash("Movement");
@@ -28,15 +28,6 @@ namespace BuilderGame.Gameplay.Unit.Animation
             var velocityMagnitude = unitMovement.Direction.normalized.sqrMagnitude;
 
             animator.SetFloat(movementParameter, velocityMagnitude, damp, Time.deltaTime);
-        }
-
-
-        public void SwitchAnimLayers(int targetLayer)
-        {
-
-            DOTween.Sequence()
-            .Append(DOTween.To(() => 1, x => animator.SetLayerWeight(currentLayer, x), 0, 0.5f)).SetEase(Ease.Linear)
-            .Join(DOTween.To(() => 0, x => animator.SetLayerWeight(targetLayer, x), 1, 0.5f)).SetEase(Ease.Linear).OnComplete(() => currentLayer = targetLayer);
         }
 
     }

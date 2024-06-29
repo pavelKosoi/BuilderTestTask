@@ -10,7 +10,8 @@ public class GardenBedBase : MonoBehaviour
         Plowing,
         Seeding,
         Growing,
-        Harvesting
+        Harvesting,
+        Nothifng
     }
 
     [SerializeField] Vector2Int gridSize;

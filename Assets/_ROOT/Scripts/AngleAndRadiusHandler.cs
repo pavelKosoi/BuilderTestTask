@@ -4,21 +4,21 @@ using UnityEngine;
 
 public class AngleAndRadiusHandler : MonoBehaviour
 {
-    [SerializeField] float attacklAngle;
-    [SerializeField] float attackRadius;
+    [SerializeField] float angle;
+    [SerializeField] float radius;
     [SerializeField] int arcSegments = 20;
-    public float AttackAngle => attacklAngle;
-    public float AttackRadius => attackRadius;
+    public float Angle => angle;
+    public float Radius => radius;
 
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
 
-        Vector3[] endPoints = CalcEndPoints(attacklAngle, attackRadius);      
+        Vector3[] endPoints = CalcEndPoints(angle, radius);      
         Gizmos.DrawLine(transform.position, endPoints[0]);
         Gizmos.DrawLine(transform.position, endPoints[1]);
 
-        List<Vector3> arcPoints = GetArcPoints(attacklAngle, attackRadius, endPoints[0], endPoints[1]);
+        List<Vector3> arcPoints = GetArcPoints(angle, radius, endPoints[0], endPoints[1]);
         for (int i = 0; i < arcPoints.Count - 1; i++)
         {
             Gizmos.DrawLine(arcPoints[i], arcPoints[i + 1]);
