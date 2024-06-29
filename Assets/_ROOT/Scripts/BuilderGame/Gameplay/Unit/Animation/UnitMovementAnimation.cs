@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using DG.Tweening;
+using UnityEngine;
 
 namespace BuilderGame.Gameplay.Unit.Animation
 {
@@ -11,6 +12,8 @@ namespace BuilderGame.Gameplay.Unit.Animation
         private UnitMovement unitMovement;
         [SerializeField]
         private Animator animator;
+        int currentLayer;
+
 
         private readonly int movementParameter = Animator.StringToHash("Movement");
 
@@ -26,5 +29,15 @@ namespace BuilderGame.Gameplay.Unit.Animation
 
             animator.SetFloat(movementParameter, velocityMagnitude, damp, Time.deltaTime);
         }
+
+
+        public void SwitchAnimLayers(int targetLayer)
+        {
+
+            DOTween.Sequence()
+            .Append(DOTween.To(() => 1, x => animator.SetLayerWeight(currentLayer, x), 0, 0.5f)).SetEase(Ease.Linear)
+            .Join(DOTween.To(() => 0, x => animator.SetLayerWeight(targetLayer, x), 1, 0.5f)).SetEase(Ease.Linear).OnComplete(() => currentLayer = targetLayer);
+        }
+
     }
 }
