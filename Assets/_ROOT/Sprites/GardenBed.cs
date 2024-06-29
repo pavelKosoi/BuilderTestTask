@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class GardenBedBase : MonoBehaviour
+public class GardenBed : MonoBehaviour
 {
     public enum State
     {
@@ -19,6 +19,9 @@ public class GardenBedBase : MonoBehaviour
     [SerializeField] GameObject cellPrefab;
     [SerializeField] BoxCollider trigger;
     [SerializeField] State currentState;
+    [SerializeField] GameObject culturePrefab;
+
+    public GameObject CulturePrefab { get { return culturePrefab; } }
 
     List<GardenBedCell> gardenBedCells = new List<GardenBedCell>();
 

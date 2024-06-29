@@ -12,7 +12,7 @@ public class PlayerFarmingController : MonoBehaviour
     [Serializable]
     public struct Doing
     {
-        public GardenBedBase.State doingType;
+        public GardenBed.State doingType;
         public bool breakOnMove;
         public GameObject instrument;
         public ParticleEmiter doingFx;
@@ -24,7 +24,7 @@ public class PlayerFarmingController : MonoBehaviour
     UnitMovement unitMovement;
     Coroutine CheckCellsRoutine;
     AngleAndRadiusHandler angleAndRadiusHandler;
-    GardenBedBase.State currentState = GardenBedBase.State.Nothifng;    
+    GardenBed.State currentState = GardenBed.State.Nothifng;    
 
 
 
@@ -35,7 +35,7 @@ public class PlayerFarmingController : MonoBehaviour
         unitMovement = GetComponent<UnitMovement>();
     }
 
-    public void StartDoingByState(GardenBedBase.State gardebBedState)
+    public void StartDoingByState(GardenBed.State gardebBedState)
     {
         CheckCellsRoutine = StartCoroutine(CheckGardenBedCells());        
         foreach (var item in doings)
@@ -67,7 +67,7 @@ public class PlayerFarmingController : MonoBehaviour
         }
     }
 
-    IEnumerator StartWorkingByState(GardenBedBase.State state)
+    IEnumerator StartWorkingByState(GardenBed.State state)
     {
         movementAnimation.Animator.SetBool($"{state}Work", true);
         while (true)
@@ -115,7 +115,7 @@ public class PlayerFarmingController : MonoBehaviour
         return colliders;
     }
 
-    Doing GetDoingByState(GardenBedBase.State state)
+    Doing GetDoingByState(GardenBed.State state)
     {
         foreach (var item in doings)
         {
