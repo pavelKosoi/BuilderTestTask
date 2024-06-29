@@ -51,9 +51,7 @@ public class PlayerFarmingController : MonoBehaviour
         {
             if (unitMovement.TargetVelocity.magnitude == 0)
             {
-                List<Collider> colliders = Physics.OverlapSphere(transform.position, angleAndRadiusHandler.Radius, LayerMask.GetMask("GardenBedCell")).ToList();
-                RemoveCollidersNotInAngle(colliders, angleAndRadiusHandler.Angle);
-
+                List<Collider> colliders = GetCellsInAngle();
                 foreach (var item in colliders)
                 {
                     GardenBedCell gardenBedCell = item.GetComponentInParent<GardenBedCell>();
@@ -73,20 +71,59 @@ public class PlayerFarmingController : MonoBehaviour
         movementAnimation.Animator.SetBool($"{state}Work", true);
         while (true)
         {
+            bool outOfWorking = false;
             if (unitMovement.TargetVelocity.magnitude != 0)
             {
                 foreach (var item in doings)
                 {
                     if (item.doingType == currentState && item.breakOnMove)
                     {
-                        movementAnimation.Animator.SetBool($"{state}Work", false);
-                        CheckCellsRoutine = StartCoroutine(CheckGardenBedCells());
-                        yield break;
+                        outOfWorking = true;
                     }
                 }
             }
-            
-            yield return new WaitForSeconds(0.1f);
+            else
+            {
+                List<Collider> colliders = GetCellsInAngle();
+                bool allCellsWorked = true;
+                foreach (var item in colliders)
+                {
+                    GardenBedCell gardenBedCell = item.GetComponentInParent<GardenBedCell>();
+                    if (gardenBedCell.currentState == currentState)
+                    {
+                        allCellsWorked = false;
+                    }
+                }
+               outOfWorking = allCellsWorked;
+            }
+            if (outOfWorking)
+            {
+                movementAnimation.Animator.SetBool($"{state}Work", false);
+                CheckCellsRoutine = StartCoroutine(CheckGardenBedCells());
+                yield break;
+            }
+
+            yield return null;
+        }
+    }
+
+    List<Collider> GetCellsInAngle()
+    {
+        List<Collider> colliders = Physics.OverlapSphere(transform.position, angleAndRadiusHandler.Radius, LayerMask.GetMask("GardenBedCell")).ToList();
+        RemoveCollidersNotInAngle(colliders, angleAndRadiusHandler.Angle);
+        return colliders;
+    }
+    public void Work()
+    {
+        List<Collider> colliders = GetCellsInAngle();
+
+        foreach (var item in colliders)
+        {
+            GardenBedCell gardenBedCell = item.GetComponentInParent<GardenBedCell>();
+            if (gardenBedCell.currentState == currentState)
+            {
+                gardenBedCell.Work();
+            }
         }
     }
 

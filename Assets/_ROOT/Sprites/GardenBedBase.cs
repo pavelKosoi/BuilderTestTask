@@ -43,6 +43,15 @@ public class GardenBedBase : MonoBehaviour
         }
     }
 
+    public void CheckAllCellsByState(State state)
+    {
+        foreach (var item in gardenBedCells)
+        {
+            if (item.currentState != state) return;
+        }
+        currentState = state;
+    }
+
     public Vector3[] GetCellCenters()
     {
         Vector3[] cellCenters = new Vector3[gridSize.x * gridSize.y];
