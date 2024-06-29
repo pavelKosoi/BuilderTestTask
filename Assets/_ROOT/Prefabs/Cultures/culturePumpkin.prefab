@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2454284445524841014}
   - component: {fileID: 1469964211024971987}
+  - component: {fileID: 8373228144209420734}
   m_Layer: 0
   m_Name: culturePumpkin
   m_TagString: Untagged
@@ -26,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 3589246798614679719}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.08682413, y: 0.39139, z: 0.066272914}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -45,9 +46,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3806d74235df894d830a83ff39c0aaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  growingTimeCelling: 5
-  growingTimeFloor: 3
+  growingTimeCelling: 8
+  growingTimeFloor: 5
   cultureModel: {fileID: 4258423722520819169}
+  playerAttractDuration: 2
+  gardenBedCell: {fileID: 0}
+--- !u!135 &8373228144209420734
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3589246798614679719}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.2658906
+  m_Center: {x: 0, y: 0.2341094, z: 0}
 --- !u!1001 &4259088174572252543
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -62,15 +86,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4749971936054772, guid: fdb809c80f4c35d4fb535ab2501069e7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.08682413
+      value: -0.002
       objectReference: {fileID: 0}
     - target: {fileID: 4749971936054772, guid: fdb809c80f4c35d4fb535ab2501069e7, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.337
+      value: 0.027
       objectReference: {fileID: 0}
     - target: {fileID: 4749971936054772, guid: fdb809c80f4c35d4fb535ab2501069e7, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.066272914
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4749971936054772, guid: fdb809c80f4c35d4fb535ab2501069e7, type: 3}
       propertyPath: m_LocalRotation.w

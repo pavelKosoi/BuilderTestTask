@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,17 +6,21 @@ using UnityEngine;
 public class GardenBedCell : MonoBehaviour
 {
     public GardenBed.State currentState;
-    [SerializeField] int plowTimes;
+    [SerializeField] int plowTimesMax;
     [SerializeField] ParticleEmiter plowingFx;
     [SerializeField] ParticleEmiter dirtFx;
     [SerializeField] MeshRenderer groundMesh;
-    [SerializeField] Material groundMaterial;    
+    [SerializeField] Material groundMaterial;
+    [SerializeField] Material darkGrassMaterial;
+    [SerializeField] Transform sprout;
     GardenBed GardenBedBase;
     CultureBase culture;
+    int plowTimes;
 
     private void Awake()
     {
         GardenBedBase = GetComponentInParent<GardenBed>();
+        plowTimes = plowTimesMax;
     }
 
     public void Work()
@@ -23,9 +28,9 @@ public class GardenBedCell : MonoBehaviour
         switch (currentState) 
         {
             case GardenBed.State.Plowing:
-                plowTimes -= 1;
+                plowTimesMax -= 1;
                 plowingFx.Emit();
-                if (plowTimes <= 0) SetPlowed();
+                if (plowTimesMax <= 0) SetPlowed();
                 break;
             case GardenBed.State.Seeding:
                 if(!culture) SetCulture();
@@ -35,8 +40,21 @@ public class GardenBedCell : MonoBehaviour
 
     void SetCulture()
     {
-        culture = Instantiate(GardenBedBase.CulturePrefab, transform).GetComponent<CultureBase>();
-        culture.GrowingUp(OnCultureGrowed);
+        sprout.DOScale(Vector3.one, 0.5f).SetEase(Ease.Linear).OnComplete(() =>
+        {
+            culture = Instantiate(GardenBedBase.CulturePrefab, transform).GetComponent<CultureBase>();
+            culture.gardenBedCell = this;
+            culture.GrowingUp(OnCultureGrowed);           
+            sprout.DOScale(Vector3.zero, culture.TargetTime).SetEase(Ease.Linear);
+        });
+    }   
+
+    public void OnHarvest()
+    {
+        culture = null;
+        plowTimes = plowTimesMax;
+        groundMesh.material = darkGrassMaterial;
+        currentState = GardenBed.State.Plowing;
     }
 
     public void OnCultureGrowed()

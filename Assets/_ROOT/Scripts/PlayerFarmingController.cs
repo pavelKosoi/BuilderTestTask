@@ -9,6 +9,8 @@ using UnityEngine;
 
 public class PlayerFarmingController : MonoBehaviour
 {
+    public static PlayerFarmingController Instance;
+
     [Serializable]
     public struct Doing
     {
@@ -30,6 +32,7 @@ public class PlayerFarmingController : MonoBehaviour
 
     private void Awake()
     {
+        Instance = this;
         movementAnimation = GetComponentInChildren<UnitMovementAnimation>();
         angleAndRadiusHandler = GetComponent<AngleAndRadiusHandler>();
         unitMovement = GetComponent<UnitMovement>();
