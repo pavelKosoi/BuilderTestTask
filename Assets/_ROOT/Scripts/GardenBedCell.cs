@@ -28,9 +28,9 @@ public class GardenBedCell : MonoBehaviour
         switch (currentState) 
         {
             case GardenBed.State.Plowing:
-                plowTimesMax -= 1;
+                plowTimes -= 1;
                 plowingFx.Emit();
-                if (plowTimesMax <= 0) SetPlowed();
+                if (plowTimes <= 0) SetPlowed();
                 break;
             case GardenBed.State.Seeding:
                 if(!culture) SetCulture();
@@ -55,6 +55,7 @@ public class GardenBedCell : MonoBehaviour
         plowTimes = plowTimesMax;
         groundMesh.material = darkGrassMaterial;
         currentState = GardenBed.State.Plowing;
+        GardenBedBase.TryToNextState(currentState);
     }
 
     public void OnCultureGrowed()

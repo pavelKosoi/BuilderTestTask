@@ -49,8 +49,7 @@ MonoBehaviour:
   growingTimeCelling: 8
   growingTimeFloor: 5
   cultureModel: {fileID: 4258423722520819169}
-  playerAttractDuration: 2
-  gardenBedCell: {fileID: 0}
+  playerAttractDuration: 0.5
 --- !u!135 &8373228144209420734
 SphereCollider:
   m_ObjectHideFlags: 0

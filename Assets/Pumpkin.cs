@@ -9,7 +9,11 @@ public class Pumpkin : CultureBase
     {
         targetTime = UnityEngine.Random.Range(growingTimeFloor, growingTimeCelling);
         cultureModel.transform.localScale = Vector3.zero;
-        cultureModel.transform.DOScale(Vector3.one, targetTime).SetEase(Ease.InOutExpo).OnComplete(()=>onGrowedCallback?.Invoke());
+        cultureModel.transform.DOScale(Vector3.one, targetTime).SetEase(Ease.InOutExpo).OnComplete(()=>
+        {
+            onGrowedCallback?.Invoke();
+            ripe = true;
+        });
     }
 
     protected override void TryToHarvest()

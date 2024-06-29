@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ public abstract class CultureBase : MonoBehaviour
     [SerializeField] protected float playerAttractDuration;
     protected float targetTime;
     protected bool harvested;
+    protected bool ripe;
 
     public GardenBedCell gardenBedCell {  get; set; }
     public float TargetTime { get { return targetTime; } }
@@ -18,29 +20,26 @@ public abstract class CultureBase : MonoBehaviour
     protected abstract void TryToHarvest();
     protected virtual IEnumerator AttractToPlayer()
     {
-        while (true)
+        float duration = playerAttractDuration;
+        float elapsedTime = 0f;
+        Vector3 startPoint = transform.position;
+
+        while (elapsedTime < duration)
         {
-            float duration = playerAttractDuration;
-            float elapsedTime = 0f;
-            Vector3 startPoint = transform.position;
+            elapsedTime += Time.deltaTime;
+            float t = elapsedTime / duration;
 
-            while (elapsedTime < duration)
+            Vector3 endPoint = PlayerFarmingController.Instance.transform.position;
+            Vector3 controlPoint = (startPoint + endPoint) / 2 + Vector3.up * 5;
+            Vector3 position = CalculateQuadraticBezierPoint(t, startPoint, controlPoint, endPoint);
+
+            transform.position = position;
+            if (Vector3.Distance(transform.position, endPoint) <= 0.5f)
             {
-                elapsedTime += Time.deltaTime;
-                float t = elapsedTime / duration;
-
-                Vector3 endPoint = PlayerFarmingController.Instance.transform.position;
-                Vector3 controlPoint = (startPoint + endPoint) / 2 + Vector3.up * 5;
-                Vector3 position = CalculateQuadraticBezierPoint(t, startPoint, controlPoint, endPoint);
-
-                transform.position = position;
-                if (Vector3.Distance(transform.position, endPoint) <= 0.5f)
-                {
-                    Destroy(gameObject);
-                }
-
-                yield return null;
+                Destroy(gameObject);
             }
+
+            yield return null;
         }
     }
     Vector3 CalculateQuadraticBezierPoint(float t, Vector3 p0, Vector3 p1, Vector3 p2)
@@ -56,7 +55,7 @@ public abstract class CultureBase : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == 6 && !harvested)
+        if (ripe && other.gameObject.layer == 6 && !harvested)
         {
             harvested = true;
             TryToHarvest();
