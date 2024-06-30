@@ -17,6 +17,8 @@ public class GardenBedCell : MonoBehaviour
     CultureBase culture;
     int plowTimes;
 
+    public CultureBase Culture { get { return culture; } }
+
     private void Awake()
     {
         GardenBedBase = GetComponentInParent<GardenBed>();

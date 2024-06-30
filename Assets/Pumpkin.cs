@@ -22,5 +22,15 @@ public class Pumpkin : CultureBase
             .Append(cultureModel.transform.DOJump(cultureModel.transform.position, 1, 1, 0.5f))
             .Join(cultureModel.transform.DOScale(Vector3.one * 0.7f, 0.25f)).OnComplete(() => StartCoroutine(AttractToPlayer()));
     }
-    
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (ripe && (other.gameObject.layer == 6 || other.gameObject.layer == 8) && !harvested)
+        {
+            harvested = true;
+            TryToHarvest();
+            gardenBedCell.OnHarvest();
+
+        }
+    }
 }

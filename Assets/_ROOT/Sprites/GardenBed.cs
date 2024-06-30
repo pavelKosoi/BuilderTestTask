@@ -18,12 +18,15 @@ public class GardenBed : MonoBehaviour
     [SerializeField] float cellSize;
     [SerializeField] GameObject cellPrefab;
     [SerializeField] BoxCollider trigger;
-    [SerializeField] State currentState;
     [SerializeField] GameObject culturePrefab;
 
-    public GameObject CulturePrefab { get { return culturePrefab; } }
-
+   [SerializeField] State currentState;
     List<GardenBedCell> gardenBedCells = new List<GardenBedCell>();
+
+
+    public State CurrentState { get { return currentState; } }
+    public GameObject CulturePrefab { get { return culturePrefab; } }
+    public List<GardenBedCell> GardenBedCells { get { return gardenBedCells; } }
 
     Vector3 offset => new Vector3(gridSize.x * cellSize / 2.0f, 0, gridSize.y * cellSize / 2.0f);
     Vector3 startPos => transform.position - offset;
@@ -65,11 +68,11 @@ public class GardenBed : MonoBehaviour
             if (item.currentState != state) return;
         }
         currentState = state;
-        trigger.gameObject.SetActive(false);
-        trigger.gameObject.SetActive(true);
+        trigger.enabled = false;
+        trigger.enabled = true;
     }
 
-    public Vector3[] GetCellCenters()
+    Vector3[] GetCellCenters()
     {
         Vector3[] cellCenters = new Vector3[gridSize.x * gridSize.y];
         int index = 0;

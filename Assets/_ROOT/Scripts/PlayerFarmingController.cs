@@ -26,8 +26,8 @@ public class PlayerFarmingController : MonoBehaviour
     UnitMovement unitMovement;
     Coroutine CheckCellsRoutine;
     AngleAndRadiusHandler angleAndRadiusHandler;
-    GardenBed.State currentState = GardenBed.State.Nothifng;    
-
+    GardenBed.State currentState = GardenBed.State.Nothifng;
+    public ScaleShaker scaleShaker {  get; private set; }
 
 
     private void Awake()
@@ -36,6 +36,7 @@ public class PlayerFarmingController : MonoBehaviour
         movementAnimation = GetComponentInChildren<UnitMovementAnimation>();
         angleAndRadiusHandler = GetComponent<AngleAndRadiusHandler>();
         unitMovement = GetComponent<UnitMovement>();
+        scaleShaker = GetComponentInChildren<ScaleShaker>();
     }
 
     public void StartDoingByState(GardenBed.State gardebBedState)

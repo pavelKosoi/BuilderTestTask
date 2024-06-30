@@ -2,6 +2,7 @@ using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public abstract class CultureBase : MonoBehaviour
@@ -34,13 +35,13 @@ public abstract class CultureBase : MonoBehaviour
             Vector3 position = CalculateQuadraticBezierPoint(t, startPoint, controlPoint, endPoint);
 
             transform.position = position;
-            if (Vector3.Distance(transform.position, endPoint) <= 0.5f)
-            {
-                Destroy(gameObject);
-            }
 
             yield return null;
         }
+
+        transform.position = PlayerFarmingController.Instance.transform.position;
+        PlayerFarmingController.Instance.scaleShaker.Shake(0.15f);
+        Destroy(gameObject);
     }
     Vector3 CalculateQuadraticBezierPoint(float t, Vector3 p0, Vector3 p1, Vector3 p2)
     {
@@ -52,16 +53,5 @@ public abstract class CultureBase : MonoBehaviour
         p += tt * p2;
         return p;
     }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (ripe && other.gameObject.layer == 6 && !harvested)
-        {
-            harvested = true;
-            TryToHarvest();
-            gardenBedCell.OnHarvest();
-
-        }
-    }
-        
+    
 }
