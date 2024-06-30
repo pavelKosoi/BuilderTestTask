@@ -61,7 +61,7 @@ public class GardenBedCell : MonoBehaviour
             if (item.culture) return;
             else item.currentState = GardenBed.State.Plowing;
         }
-        currentState = GardenBed.State.Plowing;
+        
         GardenBed.TryToNextState(currentState);
     }
 
