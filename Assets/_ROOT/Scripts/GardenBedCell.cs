@@ -1,6 +1,4 @@
 using DG.Tweening;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GardenBedCell : MonoBehaviour
@@ -13,15 +11,16 @@ public class GardenBedCell : MonoBehaviour
     [SerializeField] Material groundMaterial;
     [SerializeField] Material darkGrassMaterial;
     [SerializeField] Transform sprout;
-    GardenBed GardenBedBase;
+    GardenBed GardenBed;
     CultureBase culture;
     int plowTimes;
 
     public CultureBase Culture { get { return culture; } }
 
+
     private void Awake()
     {
-        GardenBedBase = GetComponentInParent<GardenBed>();
+        GardenBed = GetComponentInParent<GardenBed>();
         plowTimes = plowTimesMax;
     }
 
@@ -44,9 +43,10 @@ public class GardenBedCell : MonoBehaviour
     {
         sprout.DOScale(Vector3.one, 0.5f).SetEase(Ease.Linear).OnComplete(() =>
         {
-            culture = Instantiate(GardenBedBase.CulturePrefab, transform).GetComponent<CultureBase>();
+            culture = Instantiate(GardenBed.CulturePrefab, transform).GetComponent<CultureBase>();
             culture.gardenBedCell = this;
-            culture.GrowingUp(OnCultureGrowed);           
+            culture.GrowingUp(OnCultureGrowed);
+            GardenBed.AddPlantedCell();
             sprout.DOScale(Vector3.zero, culture.TargetTime).SetEase(Ease.Linear);
         });
     }   
@@ -56,14 +56,19 @@ public class GardenBedCell : MonoBehaviour
         culture = null;
         plowTimes = plowTimesMax;
         groundMesh.material = darkGrassMaterial;
+        foreach (var item in GardenBed.GardenBedCells)
+        {
+            if (item.culture) return;
+            else item.currentState = GardenBed.State.Plowing;
+        }
         currentState = GardenBed.State.Plowing;
-        GardenBedBase.TryToNextState(currentState);
+        GardenBed.TryToNextState(currentState);
     }
 
     public void OnCultureGrowed()
     {
         currentState = GardenBed.State.Harvesting;
-        GardenBedBase.TryToNextState(currentState);
+        GardenBed.TryToNextState(currentState);
     }
 
     void SetPlowed()
@@ -71,6 +76,6 @@ public class GardenBedCell : MonoBehaviour
         dirtFx.Emit();
         groundMesh.material = groundMaterial;
         currentState = GardenBed.State.Seeding;
-        GardenBedBase.TryToNextState(currentState);
+        GardenBed.TryToNextState(currentState);
     }
 }

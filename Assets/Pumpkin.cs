@@ -16,21 +16,21 @@ public class Pumpkin : CultureBase
         });
     }
 
-    protected override void TryToHarvest()
+    public override void TryToHarvest()
     {
+        harvested = true;
         DOTween.Sequence()
             .Append(cultureModel.transform.DOJump(cultureModel.transform.position, 1, 1, 0.5f))
             .Join(cultureModel.transform.DOScale(Vector3.one * 0.7f, 0.25f)).OnComplete(() => StartCoroutine(AttractToPlayer()));
+        gardenBedCell.OnHarvest();
+
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (ripe && (other.gameObject.layer == 6 || other.gameObject.layer == 8) && !harvested)
+        if (ripe && other.gameObject.layer == 6 && !harvested)
         {
-            harvested = true;
             TryToHarvest();
-            gardenBedCell.OnHarvest();
-
         }
     }
 }

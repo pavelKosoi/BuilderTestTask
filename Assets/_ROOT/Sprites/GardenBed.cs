@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,13 +21,15 @@ public class GardenBed : MonoBehaviour
     [SerializeField] BoxCollider trigger;
     [SerializeField] GameObject culturePrefab;
 
-   [SerializeField] State currentState;
+    [SerializeField] State currentState;
     List<GardenBedCell> gardenBedCells = new List<GardenBedCell>();
-
+    int currentPlantedCells;
 
     public State CurrentState { get { return currentState; } }
     public GameObject CulturePrefab { get { return culturePrefab; } }
     public List<GardenBedCell> GardenBedCells { get { return gardenBedCells; } }
+    public Action onGardenBedPlanted;
+
 
     Vector3 offset => new Vector3(gridSize.x * cellSize / 2.0f, 0, gridSize.y * cellSize / 2.0f);
     Vector3 startPos => transform.position - offset;
@@ -49,6 +52,16 @@ public class GardenBed : MonoBehaviour
             {
                 item.Work();
             }
+        }
+    }
+
+    public void AddPlantedCell()
+    {
+        currentPlantedCells++;
+        if (currentPlantedCells == gardenBedCells.Count)
+        {
+            onGardenBedPlanted?.Invoke();
+            currentPlantedCells = 0;
         }
     }
 

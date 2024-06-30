@@ -17,8 +17,10 @@ public abstract class CultureBase : MonoBehaviour
 
     public GardenBedCell gardenBedCell {  get; set; }
     public float TargetTime { get { return targetTime; } }
+    public bool IsRipe { get { return ripe; } }
+
     public abstract void GrowingUp(Action onGrowedCallback);
-    protected abstract void TryToHarvest();
+    public abstract void TryToHarvest();
     protected virtual IEnumerator AttractToPlayer()
     {
         float duration = playerAttractDuration;

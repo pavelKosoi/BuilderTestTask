@@ -1,10 +1,12 @@
 using BuilderGame.Infrastructure.Services.Ads;
+using System;
 using System.Collections;
 using UnityEngine;
 
 public class Harvester : EmployeeBase
 {
     Vector3 startPos;
+
     private void Start()
     {
         startPos = transform.position;
@@ -26,9 +28,12 @@ public class Harvester : EmployeeBase
             Vector3 dir = targetCell.transform.position - transform.position;
             dir.y = 0;
             unitMovement.SetMovementDirection(dir);
+            if (dir.magnitude <= 0.1f) targetCell.Culture.TryToHarvest();
+
             if(targetCell.Culture == null) 
             {
-                if (gardenBed.CurrentState == GardenBed.State.Plowing)
+                if (cellIndex >= gardenBed.GardenBedCells.Count - 1 
+                    || gardenBed.CurrentState == GardenBed.State.Plowing)
                 {                   
                     StartCoroutine(BackToStartPos());
                     yield break;
